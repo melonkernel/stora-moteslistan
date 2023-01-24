@@ -104,7 +104,7 @@ const SheetData = () => {
         <Select
             mode="tags"
             style={{ width: '100%' }}
-            placeholder="Tags Mode"
+            placeholder="Filtrera för person(er)"
             onChange={handleFilter}
             options={allNames}
         />
@@ -116,7 +116,7 @@ const SheetData = () => {
         scroll={{ x: 1024, y: 500 }}
         size="small"
     />
-
+    <br/>
     <Button type="primary" icon={<UserAddOutlined />} href="https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2Febeneser2023&sa=D&sntz=1&usg=AOvVaw0SV87vYJlz1t_vYmOqpmUn">
       Jag vill också hjälpa till...
     </Button>
