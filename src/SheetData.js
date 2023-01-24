@@ -65,7 +65,7 @@ const SheetData = () => {
                 column.split('\n').forEach(name => names.add(name))
             });
         });
-        setAllNames([...names].map(name=>{return {"value":name, "label":name};}));
+        setAllNames([...names].sort().map(name=>{return {"value":name, "label":name};}));
       })
       .catch((error) => {
         console.log(error);
