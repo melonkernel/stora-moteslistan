@@ -63,8 +63,19 @@ const SheetData = () => {
   useEffect(() => {
 
     setFilteredColumns([
-        ...columns.slice(0, 2),
-        ...columns.slice(5).filter(event => event.participants.includes(nameFilter))
+        ...columns.slice(0, 1),
+        ...columns.filter(event => event.participants.includes(nameFilter)).map(event => {
+            event.render = (text, record) => {
+                return {
+                    props: {
+                        style: { background: nameFilter && text.includes(nameFilter) ? "silver" : "" }
+                    },
+                    children: <div>{text}</div>
+                };
+            }
+            return event;
+
+        })
     ]);
 
   }, [nameFilter, columns]);
@@ -79,7 +90,7 @@ const SheetData = () => {
         style={{ width: 300 }}
         onSelect={handleFilter}
         onSearch={handleFilter}
-        placeholder="Filter by name"
+        placeholder="Filtrera på person"
         dataSource={allNames}
         allowClear={true}
         filterOption={true}
