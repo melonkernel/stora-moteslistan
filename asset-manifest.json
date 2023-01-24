@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/stora-moteslistan/static/css/main.073c9b0a.css",
-    "main.js": "/stora-moteslistan/static/js/main.c141e439.js",
+    "main.css": "/stora-moteslistan/static/css/main.c863e011.css",
+    "main.js": "/stora-moteslistan/static/js/main.8331cf65.js",
     "static/js/787.60dfbfe0.chunk.js": "/stora-moteslistan/static/js/787.60dfbfe0.chunk.js",
     "index.html": "/stora-moteslistan/index.html",
-    "main.073c9b0a.css.map": "/stora-moteslistan/static/css/main.073c9b0a.css.map",
-    "main.c141e439.js.map": "/stora-moteslistan/static/js/main.c141e439.js.map",
+    "main.c863e011.css.map": "/stora-moteslistan/static/css/main.c863e011.css.map",
+    "main.8331cf65.js.map": "/stora-moteslistan/static/js/main.8331cf65.js.map",
     "787.60dfbfe0.chunk.js.map": "/stora-moteslistan/static/js/787.60dfbfe0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.c141e439.js"
+    "static/css/main.c863e011.css",
+    "static/js/main.8331cf65.js"
   ]
 }
