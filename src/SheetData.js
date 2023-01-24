@@ -116,6 +116,7 @@ const SheetData = () => {
             pageSize:100,
         }}
         scroll={{ x: 1024, y: 500 }}
+        size="small"
     />
 
     <Button type="primary" icon={<UserAddOutlined />} href="https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2Febeneser2023&sa=D&sntz=1&usg=AOvVaw0SV87vYJlz1t_vYmOqpmUn">
