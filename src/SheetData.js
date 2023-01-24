@@ -17,7 +17,7 @@ const SheetData = () => {
             title: arr[0],
             dataIndex: index+1,
             key: index+1,
-            width: index===0 ? 100: 180,
+            width: index===0 ? 140: 180,
             fixed: index===0 ? 'left': 'none'
         };});
         setColumns([...events]);
