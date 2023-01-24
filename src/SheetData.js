@@ -5,9 +5,23 @@ import { Table, AutoComplete } from 'antd';
 const SheetData = () => {
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredColumns, setFilteredColumns] = useState([]);
   const [nameFilter, setNameFilter] = useState('');
   const [allNames, setAllNames] = useState([]);
+
+  const hasBeen = (dateVal) => {
+    var Currentdate = new Date();
+    var dateArr = dateVal.split(".");
+    var year = Currentdate.getFullYear();
+    // 5.2 => 2023-5-2
+    var inputDate = new Date('"' + year + "-" + dateArr[1] + "-" + dateArr[0] + '"').setHours(0, 0, 0, 0);
+    var toDay = new Date().setHours(0, 0, 0, 0);
+    if(toDay > inputDate){
+        return false;
+    }
+    return true;
+
+  }
 
   useEffect(() => {
     axios
@@ -21,9 +35,12 @@ const SheetData = () => {
             dataIndex: index+1,
             key: index+1,
             width: index===0 ? 140: 185,
-            fixed: index===0 ? 'left': 'none'
+            fixed: index===0 ? 'left': 'none',
+            participants: [...new Set(arr.slice(5).map(names => names.split('\n')).flat())],
+            hasBeen: hasBeen(arr[0])
         };});
-        setColumns([...events]);
+        setColumns([...events.filter(event => event.hasBeen)]);
+        setFilteredColumns([...events.filter(event => event.hasBeen)]);
 
         setData(jobNames.map((jobName, jobIndex) => [
             jobName,
@@ -42,20 +59,15 @@ const SheetData = () => {
         console.log(error);
       });
   }, []);
-/*
+
   useEffect(() => {
 
-    const included = Array(data[0].length()).fill(false);
-    data.forEach(row => {
-        row.forEach((column, index) => {
-            if (column.includes(nameFilter)) {
-                included[index] = true;
-            }
-        })
-    })
+    setFilteredColumns([
+        ...columns.slice(0, 2),
+        ...columns.slice(5).filter(event => event.participants.includes(nameFilter))
+    ]);
 
-
-  }, [nameFilter, data]);*/
+  }, [nameFilter, columns]);
 
   const handleFilter = (value) => {
     setNameFilter(value);
@@ -69,10 +81,12 @@ const SheetData = () => {
         onSearch={handleFilter}
         placeholder="Filter by name"
         dataSource={allNames}
+        allowClear={true}
+        filterOption={true}
       />
       <Table
         dataSource={data}
-        columns={columns}
+        columns={filteredColumns}
         pagination={{
             pageSize:100,
         }}
