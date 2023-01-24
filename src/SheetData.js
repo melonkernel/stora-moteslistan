@@ -112,9 +112,7 @@ const SheetData = () => {
       <Table
         dataSource={data}
         columns={filteredColumns}
-        pagination={{
-            pageSize:100,
-        }}
+        pagination={false}
         scroll={{ x: 1024, y: 500 }}
         size="small"
     />
