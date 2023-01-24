@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table } from 'antd';
+import { Table, AutoComplete } from 'antd';
 
 const SheetData = () => {
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [nameFilter, setNameFilter] = useState('');
+  const [allNames, setAllNames] = useState([]);
 
   useEffect(() => {
     axios
@@ -17,35 +20,56 @@ const SheetData = () => {
             title: arr[0],
             dataIndex: index+1,
             key: index+1,
-            width: index===0 ? 140: 180,
+            width: index===0 ? 140: 185,
             fixed: index===0 ? 'left': 'none'
         };});
         setColumns([...events]);
-        const daaata = jobNames.map((jobName, jobIndex) => [
+
+        setData(jobNames.map((jobName, jobIndex) => [
             jobName,
             ...values.map(eventJobs => (!eventJobs[jobIndex] ? "" : eventJobs[jobIndex]).trim().replace(/\n/, ", ") )
-        ]);
-        setData(daaata);
+        ]));
 
-        /*
-        setData(values);
-        setFilteredData(data);
-        // Extract all unique names from the data
         const names = new Set();
-        values.forEach((row) => {
+        values.slice(1).forEach((row) => {
             row.slice(5).forEach((column) => {
                 column.split('\n').forEach(name => names.add(name))
             });
         });
-        setAllNames([...names]);*/
+        setAllNames([...names]);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+/*
+  useEffect(() => {
+
+    const included = Array(data[0].length()).fill(false);
+    data.forEach(row => {
+        row.forEach((column, index) => {
+            if (column.includes(nameFilter)) {
+                included[index] = true;
+            }
+        })
+    })
+
+
+  }, [nameFilter, data]);*/
+
+  const handleFilter = (value) => {
+    setNameFilter(value);
+  };
 
   return (
     <div>
+    <AutoComplete
+        style={{ width: 300 }}
+        onSelect={handleFilter}
+        onSearch={handleFilter}
+        placeholder="Filter by name"
+        dataSource={allNames}
+      />
       <Table
         dataSource={data}
         columns={columns}
