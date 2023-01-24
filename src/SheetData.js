@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, AutoComplete } from 'antd';
+import { Table, Select } from 'antd';
 
 const SheetData = () => {
   const [data, setData] = useState([]);
@@ -21,6 +21,17 @@ const SheetData = () => {
     }
     return true;
 
+  }
+
+  const isANameIn = (names, list) => {
+    for (let name of names) {
+        for (let listName of list) {
+            if (listName.includes(name)) {
+                return true;
+            }
+        }
+    }
+    return false;
   }
 
   useEffect(() => {
@@ -53,7 +64,7 @@ const SheetData = () => {
                 column.split('\n').forEach(name => names.add(name))
             });
         });
-        setAllNames([...names]);
+        setAllNames([...names].map(name=>{return {"value":name, "label":name};}));
       })
       .catch((error) => {
         console.log(error);
@@ -64,11 +75,12 @@ const SheetData = () => {
 
     setFilteredColumns([
         ...columns.slice(0, 1),
-        ...columns.filter(event => event.participants.includes(nameFilter)).map(event => {
-            event.render = (text, record) => {
+        ...columns.slice(1).filter(event => !nameFilter.length || isANameIn(nameFilter, event.participants))
+            .map(event => {
+                event.render = (text, record) => {
                 return {
                     props: {
-                        style: { background: nameFilter && text.includes(nameFilter) ? "silver" : "" }
+                        style: { background: nameFilter && isANameIn(nameFilter, text.split(", ")) ? "silver" : "" }
                     },
                     children: <div>{text}</div>
                 };
@@ -86,15 +98,16 @@ const SheetData = () => {
 
   return (
     <div>
-    <AutoComplete
-        style={{ width: 300 }}
-        onSelect={handleFilter}
-        onSearch={handleFilter}
-        placeholder="Filtrera på person"
-        dataSource={allNames}
-        allowClear={true}
-        filterOption={true}
-      />
+
+
+        <Select
+            mode="tags"
+            style={{ width: '100%' }}
+            placeholder="Tags Mode"
+            onChange={handleFilter}
+            options={allNames}
+        />
+
       <Table
         dataSource={data}
         columns={filteredColumns}
